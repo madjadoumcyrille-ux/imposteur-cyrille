@@ -51,7 +51,7 @@ const RELAY="wss://imposteur-relay.onrender.com/";
 const $=id=>document.getElementById(id),show=(id,on)=>$(id).classList.toggle("hidden",!on);
 let socket=null,heartbeat=null,isHost=false,roomCode="",myId="",players=[],role=null,phase="home",voted=false;
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function name(){const n=$("nameInput").value.trim().slice(0,24);if(n)localStorage.setItem("imp_name",n);return n||localStorage.getItem("imp_name")||"Joueur "+Math.floor(10+Math.random()*90)}
+function name(){const n=$("nameInput").value.trim().slice(0,24);return n||"Joueur "+Math.floor(10+Math.random()*90)}
 function status(message,error=false){$("statusHome").textContent=message;$("statusHome").classList.toggle("error",error);$("lobbyStatus").textContent=message;$("lobbyStatus").classList.toggle("error",error)}
 function renderPlayers(){$("players").innerHTML=players.map(p=>'<div class="player"><span>'+escapeHtml(p.name)+(p.id===myId?' (toi)':'')+'</span><span class="badge">'+(p.id===myId&&isHost?'Hôte':'Connecté')+'</span></div>').join("");$("count").textContent=players.length;$("start").disabled=!isHost||players.length<3}
 function roomView(){show("home",false);show("game",false);show("lobby",true);$("roomLabel").textContent=roomCode;$("shareLink").textContent=location.origin+location.pathname+"?room="+encodeURIComponent(roomCode);$("hostControls").classList.toggle("hidden",!isHost);status(isHost?"Salle prête. Envoie le lien à tes amis.":"Tu as rejoint la salle.");renderPlayers()}
@@ -88,7 +88,7 @@ $("openVote").onclick=()=>{if(!isHost||phase!=="discussion")return;send({type:"v
 $("copyLink").onclick=async()=>{try{await navigator.clipboard.writeText($("shareLink").textContent);$("copyLink").textContent="Lien copié !";setTimeout(()=>$("copyLink").textContent="Copier le lien",1800)}catch{$("copyLink").textContent="Sélectionne et copie le lien"}};
 $("leave").onclick=()=>{if(socket&&socket.readyState===WebSocket.OPEN)send({type:"leave"});if(socket)socket.close();socket=null;phase="home";isHost=false;roomCode="";players=[];show("lobby",false);show("game",false);show("home",true);status("Tu as quitté la salle.")};
 $("nextRound").onclick=()=>send({type:"nextRound"});
-const stored=localStorage.getItem("imp_name");if(stored)$("nameInput").value=stored;
+
 const room=new URLSearchParams(location.search).get("room");if(room){show("joinBox",true);$("roomInput").value=room;$("joinToggle").textContent="Rejoindre la partie";$("joinToggle").onclick=()=>connect("join",room)}
 })();
 </script></body>/html>
