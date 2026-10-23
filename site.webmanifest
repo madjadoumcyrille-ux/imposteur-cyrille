@@ -1,18 +1,18 @@
 {
-  "id": "/imposteur-cyrille/",
+  "id": "./",
   "name": "IMPOSTEUR — Jeu entre amis",
   "short_name": "IMPOSTEUR",
   "description": "Un jeu de déduction multijoueur à jouer entre amis.",
   "lang": "fr",
-  "start_url": "/imposteur-cyrille/",
-  "scope": "/imposteur-cyrille/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#101522",
   "theme_color": "#111827",
   "icons": [
     {
-      "src": "/imposteur-cyrille/icon.svg",
+      "src": "./icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
