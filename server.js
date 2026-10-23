@@ -30,7 +30,8 @@ function sendPlayers(room) {
 function removePlayer(room, id) {
   const player = room.players.get(id);
   if (!player) return;
-  room.players.delete(id);\n  room.votes.delete(id);
+  room.players.delete(id);
+  room.votes.delete(id);
   if (id === room.hostId) {
     for (const p of room.players.values()) send(p.ws, { type: "roomClosed" });
     rooms.delete(room.code);
@@ -147,7 +148,8 @@ wss.on("connection", ws => {
       room.votes.clear();
       return broadcast(room, { type: "newRound", players: playerList(room) });
     }
-    if (data.type === "heartbeat") return send(ws, { type: "pong" });\n    if (data.type === "leave") {
+    if (data.type === "heartbeat") return send(ws, { type: "pong" });
+    if (data.type === "leave") {
       removePlayer(room, playerId);
       playerId = null;
       roomCode = null;
